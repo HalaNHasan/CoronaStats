@@ -37,9 +37,53 @@ const statsSlice = createSlice({
         state.filteredCountries = state.allStats;
       }
     },
+    sortCountries: (state, action) => {
+      // action:{payload:{type:totalConfirmed or newConfirmed or totalDeaths or newDeaths,direction:up or down}}
+      if (action.payload.type == "totalConfirmed") {
+        state.filteredCountries =
+          action.payload.direction == "down"
+            ? state.filteredCountries.sort((a, b) => {
+                return b.TotalConfirmed - a.TotalConfirmed;
+              })
+            : state.filteredCountries.sort((a, b) => {
+                return a.TotalConfirmed - b.TotalConfirmed;
+              });
+      } else if (action.payload.type == "newConfirmed") {
+        state.filteredCountries =
+          action.payload.direction == "down"
+            ? state.filteredCountries.sort((a, b) => {
+                return b.NewConfirmed - a.NewConfirmed;
+              })
+            : state.filteredCountries.sort((a, b) => {
+                return a.NewConfirmed - b.NewConfirmed;
+              });
+      } else if (action.payload.type == "totalDeaths") {
+        state.filteredCountries =
+          action.payload.direction == "down"
+            ? state.filteredCountries.sort((a, b) => {
+                return b.TotalDeaths - a.TotalDeaths;
+              })
+            : state.filteredCountries.sort((a, b) => {
+                return a.TotalDeaths - b.TotalDeaths;
+              });
+      } else if (action.payload.type == "newDeaths") {
+        state.filteredCountries =
+          action.payload.direction == "down"
+            ? state.filteredCountries.sort((a, b) => {
+                return b.NewDeaths - a.NewDeaths;
+              })
+            : state.filteredCountries.sort((a, b) => {
+                return a.NewDeaths - b.NewDeaths;
+              });
+      }
+    },
   },
 });
 
-export const { setIsLoading, setAllStats, setFilteredCountries } =
-  statsSlice.actions;
+export const {
+  setIsLoading,
+  setAllStats,
+  setFilteredCountries,
+  sortCountries,
+} = statsSlice.actions;
 export default statsSlice.reducer;
