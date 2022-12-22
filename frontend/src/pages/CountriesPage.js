@@ -1,7 +1,14 @@
 import React from "react";
+import FilterBox from "../components/FilterBox";
+import CountriesList from "../components/CountriesList";
 
 const CountriesPage = () => {
-  return <>Countries Page</>;
+  return (
+    <>
+      <FilterBox />
+      <CountriesList />
+    </>
+  );
 };
 
 export default CountriesPage;
