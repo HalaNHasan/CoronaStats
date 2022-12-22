@@ -7,6 +7,7 @@ const statsSlice = createSlice({
     message: "",
     allStats: [],
     globalStats: {},
+    filteredCountries: [],
   },
   reducers: {
     setAllStats: (state, action) => {
@@ -14,6 +15,7 @@ const statsSlice = createSlice({
       console.log("from setAllStats reducer", action.payload.allData.Countries);
       state.allStats = action.payload.allData.Countries || state.allStats;
       state.globalStats = action.payload.allData.Global || state.globalStats;
+      state.filteredCountries = action.payload.allData.Countries;
     },
     setIsLoading: (state, action) => {
       // action:{payload:{isLoading:true or false,message:"message to the user"}}
@@ -21,8 +23,23 @@ const statsSlice = createSlice({
       state.isLoading = action.payload.isLoading;
       state.message = action.payload.message;
     },
+
+    setFilteredCountries: (state, action) => {
+      // action:{payload:{stringContainsCountry}}
+      console.log("from setFilteredCountriesreducer", action.payload);
+      if (action.payload) {
+        state.filteredCountries = state.allStats.filter((country) => {
+          return country.Country.toLowerCase().includes(
+            action.payload.toLowerCase()
+          );
+        });
+      } else {
+        state.filteredCountries = state.allStats;
+      }
+    },
   },
 });
 
-export const { setIsLoading, setAllStats } = statsSlice.actions;
+export const { setIsLoading, setAllStats, setFilteredCountries } =
+  statsSlice.actions;
 export default statsSlice.reducer;
