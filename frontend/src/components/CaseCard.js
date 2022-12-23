@@ -15,16 +15,12 @@ const CaseCard = ({ totals }) => {
       globalTotalStats: state.stats.globalTotalStats,
     };
   });
-  // console.log(globalTotalStats);
   return (
     <Container>
-      <Row className="d-flex justify-content-center">
+      <Row className="mt-4 d-flex justify-content-between align-items-center w-100">
         {/* confirmed card-start */}
-        <Col>
-          <Card
-            style={{ width: "12rem" }}
-            className="bg-dark text-warning border-0 flex-col align-items-center text-center"
-          >
+        <Col sm={12} lg={4}>
+          <Card className="bg-dark text-warning border-0 flex-col align-items-center text-center">
             <Card.Body>
               <Card.Title>Total Cases</Card.Title>
               <Card.Subtitle className="mb-2">
@@ -41,11 +37,8 @@ const CaseCard = ({ totals }) => {
         </Col>
         {/* confirmed card-end */}
         {/* death card-start */}
-        <Col>
-          <Card
-            style={{ width: "12rem" }}
-            className="bg-dark text-warning border-0 flex-col align-items-center text-center"
-          >
+        <Col sm={12} lg={4}>
+          <Card className="bg-dark text-warning border-0 flex-col align-items-center text-center">
             <Card.Body>
               <Card.Title>Total Deaths</Card.Title>
               <Card.Subtitle className="mb-2">
@@ -63,11 +56,8 @@ const CaseCard = ({ totals }) => {
         {/* death card-end */}
 
         {/* recovered card-start */}
-        <Col>
-          <Card
-            style={{ width: "12rem" }}
-            className="bg-dark text-warning border-0 flex-col align-items-center text-center"
-          >
+        <Col sm={12} lg={4}>
+          <Card className="bg-dark text-warning border-0 flex-col align-items-center text-center">
             <Card.Body>
               <Card.Title>Total Recovered</Card.Title>
               <Card.Subtitle className="mb-2">

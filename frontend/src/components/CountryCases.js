@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import moment from "moment";
@@ -7,6 +7,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+
 import { setSelectedCountryStats } from "../redux/reducers";
 
 const CountryCases = () => {
@@ -38,6 +39,13 @@ const CountryCases = () => {
       console.log("all fields must be filled");
     }
   };
+  console.log(country);
+  useEffect(() => {
+    //to reset countryStats with each render
+    if (!country) {
+      dispatch(setSelectedCountryStats([]));
+    }
+  }, []);
   return (
     <div className="mt-3 d-flex justify-content-center align-items-center">
       <Container>
