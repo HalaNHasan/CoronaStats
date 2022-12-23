@@ -6,16 +6,22 @@ const statsSlice = createSlice({
     isLoading: false,
     message: "",
     allStats: [],
-    globalStats: {},
+    globalTotalStats: {},
+    globalAllStats: [],
     filteredCountries: [],
   },
   reducers: {
     setAllStats: (state, action) => {
       // action:{payload:{allData}}
-      console.log("from setAllStats reducer", action.payload.allData.Countries);
       state.allStats = action.payload.allData.Countries || state.allStats;
-      state.globalStats = action.payload.allData.Global || state.globalStats;
+      state.globalTotalStats =
+        action.payload.allData.Global || state.globalTotalStats;
       state.filteredCountries = action.payload.allData.Countries;
+    },
+    setGlobalStats: (state, action) => {
+      // action:{payload:globalAllStats}
+      console.log("from setGlobalStats reducer", action.payload);
+      state.globalAllStats = action.payload || state.globalAllStats;
     },
     setIsLoading: (state, action) => {
       // action:{payload:{isLoading:true or false,message:"message to the user"}}
@@ -85,5 +91,6 @@ export const {
   setAllStats,
   setFilteredCountries,
   sortCountries,
+  setGlobalStats,
 } = statsSlice.actions;
 export default statsSlice.reducer;
