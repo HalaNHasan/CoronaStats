@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { caseChartSelector } from "../redux/selectors";
+import { globalChartSelector, countryChartSelector } from "../redux/selectors";
 import { options } from "./Chart.config.js";
 
 import {
@@ -21,12 +21,20 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-const CaseChart = () => {
-  const casesChart = useSelector(caseChartSelector);
+const CaseChart = ({ type }) => {
+  let casesChart;
+  const globalStats = useSelector(globalChartSelector);
+  const countryStats = useSelector(countryChartSelector);
+  if (type == "global") {
+    casesChart = globalStats;
+  } else {
+    casesChart = countryStats;
+  }
   // options.plugins.title.text = "test";
-  const labels = casesChart.x;
-  const data = {
-    labels,
+  console.log("from case chart", casesChart);
+  //for the first chart
+  const totalCasesData = {
+    labels: casesChart.x,
     datasets: [
       {
         label: "Total Cases",
@@ -35,9 +43,29 @@ const CaseChart = () => {
       },
     ],
   };
+
+  //for the second chart
+  const totalDeathsData = {
+    labels: casesChart.x,
+    datasets: [
+      {
+        label: "Total Deaths",
+        data: casesChart.yDeaths,
+        backgroundColor: "rgba(53, 162, 230, 0.8)",
+      },
+    ],
+  };
+  useEffect(() => {
+    if (type == "global") {
+      casesChart = globalStats;
+    } else {
+      casesChart = countryStats;
+    }
+  }, []);
   return (
     <div className="mt-5">
-      <Bar options={options} data={data} width="100%" height="20%" />
+      <Bar options={options} data={totalCasesData} width="100%" height="20%" />
+      <Bar options={options} data={totalDeathsData} width="100%" height="20%" />
     </div>
   );
 };

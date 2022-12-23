@@ -38,7 +38,6 @@ function App() {
         `
       )
       .then((res) => {
-        console.log("detailed global stats: ", res.data);
         dispatch(setGlobalStats(res.data));
       })
       .catch((error) => {
@@ -57,7 +56,7 @@ function App() {
       <Routes>
         <Route path="/" element={<WorldPage />} />
         <Route path="/countries" element={<CountriesPage />} />
-        <Route path="/country/:country" element={<CountryPage />} />
+        <Route path="/country" element={<CountryPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </>

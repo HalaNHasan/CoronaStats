@@ -52,7 +52,7 @@ const NavBar = () => {
 
           <Nav.Link
             onClick={() => {
-              navigate(`/country/direct`);
+              navigate(`/country`);
             }}
           >
             Country

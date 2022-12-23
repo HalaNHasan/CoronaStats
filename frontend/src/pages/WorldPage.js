@@ -6,7 +6,7 @@ const WorldPage = () => {
   return (
     <>
       <CaseCard />
-      <CaseChart />
+      <CaseChart type="global" />
     </>
   );
 };
