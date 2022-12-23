@@ -18,7 +18,7 @@ const CountriesList = () => {
   return (
     <div className="mt-3">
       <Container>
-        {filteredCountries.length != 0 ? (
+        {filteredCountries?.length != 0 ? (
           <Table striped bordered hover variant="dark">
             <thead>
               <tr>

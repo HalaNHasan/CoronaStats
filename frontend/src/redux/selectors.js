@@ -7,7 +7,7 @@ import { get } from "lodash";
 const globalAllStats = (state) => get(state, "stats.globalAllStats");
 const selectedCountryStats = (state) =>
   get(state, "stats.selectedCountryStats");
-
+const allStats = (state) => get(state, "stats.allStats");
 //-------------------------------------------------
 //! chart selector for global stats/to build column chart
 export const globalChartSelector = createSelector(globalAllStats, (stats) => {
@@ -72,4 +72,19 @@ export const countryChartSelector = createSelector(
     };
   }
 );
+//-------------------------------------------------
+//! chart selector for country stats/to build column chart
+export const countriesNamesSelector = createSelector(allStats, (countries) => {
+  //to prevent app crash if allStats is not loaded yet
+  if (!countries) {
+    return;
+  }
+
+  //to extract countries names from allStats state
+  let countriesNames = [...countries]?.map((country) => {
+    return country.Slug[0].toUpperCase() + country.Slug.slice(1);
+  });
+
+  return countriesNames;
+});
 //-------------------------------------------------

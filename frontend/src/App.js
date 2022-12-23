@@ -29,7 +29,7 @@ function App() {
       });
 
     //to fetch globe stats from the beginning up-to-date:
-    //! globe data starts from 2020-06-25
+    //! globe data starts from 2021-06-25
     await axios
       .get(
         `https://api.covid19api.com/world?from=2020-01-22T00:00:00Z&to=${moment().format(

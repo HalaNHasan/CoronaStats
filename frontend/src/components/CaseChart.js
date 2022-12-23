@@ -65,7 +65,7 @@ const CaseChart = ({ type }) => {
   }, []);
   return (
     <div className="m-5 flex-col">
-      {type == "country" && !casesChart.yCases.length ? (
+      {type == "country" && !casesChart?.yCases?.length ? (
         <Banner message="Please Select Country & Dates!" />
       ) : (
         <>
