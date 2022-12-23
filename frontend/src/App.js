@@ -3,12 +3,13 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
+import moment from "moment";
 import WorldPage from "./pages/WorldPage";
 import CountriesPage from "./pages/CountriesPage";
 import CountryPage from "./pages/CountryPage";
 import ErrorPage from "./pages/ErrorPage";
 import NavBar from "./components/NavBar";
-import { setAllStats } from "./redux/reducers";
+import { setAllStats, setGlobalStats } from "./redux/reducers";
 
 function App() {
   const dispatch = useDispatch();
@@ -21,6 +22,24 @@ function App() {
         console.log(res.data);
         //to save allStats to redux store
         dispatch(setAllStats({ allData: res.data }));
+      })
+      .catch((error) => {
+        //an error message to be displayed for the user later...
+        console.log(error.message);
+      });
+
+    //to fetch globe stats from the beginning up-to-date:
+    //! globe data starts from 2020-06-25
+    await axios
+      .get(
+        `https://api.covid19api.com/world?from=2020-01-22T00:00:00Z&to=${moment().format(
+          "YYYY-MM-DD"
+        )}T00:00:00Z
+        `
+      )
+      .then((res) => {
+        console.log("detailed global stats: ", res.data);
+        dispatch(setGlobalStats(res.data));
       })
       .catch((error) => {
         //an error message to be displayed for the user later...

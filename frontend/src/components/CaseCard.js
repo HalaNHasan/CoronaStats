@@ -10,12 +10,12 @@ import { GiTombstone, GiZigzagLeaf } from "react-icons/gi";
 
 const CaseCard = ({ totals }) => {
   //states stored in redux
-  const { globalStats } = useSelector((state) => {
+  const { globalTotalStats } = useSelector((state) => {
     return {
-      globalStats: state.stats.globalStats,
+      globalTotalStats: state.stats.globalTotalStats,
     };
   });
-  // console.log(globalStats);
+  // console.log(globalTotalStats);
   return (
     <Container>
       <Row className="d-flex justify-content-center">
@@ -28,7 +28,7 @@ const CaseCard = ({ totals }) => {
             <Card.Body>
               <Card.Title>Total Cases</Card.Title>
               <Card.Subtitle className="mb-2">
-                {globalStats.TotalConfirmed}
+                {globalTotalStats.TotalConfirmed}
               </Card.Subtitle>
               <FaDisease
                 className="fs-1 text-muted"
@@ -49,7 +49,7 @@ const CaseCard = ({ totals }) => {
             <Card.Body>
               <Card.Title>Total Deaths</Card.Title>
               <Card.Subtitle className="mb-2">
-                {globalStats.TotalDeaths}
+                {globalTotalStats.TotalDeaths}
               </Card.Subtitle>
               <GiTombstone
                 className="fs-1 text-muted"
@@ -71,7 +71,7 @@ const CaseCard = ({ totals }) => {
             <Card.Body>
               <Card.Title>Total Recovered</Card.Title>
               <Card.Subtitle className="mb-2">
-                {globalStats.TotalRecovered}
+                {globalTotalStats.TotalRecovered}
               </Card.Subtitle>
               <GiZigzagLeaf
                 className="fs-1 text-muted"
