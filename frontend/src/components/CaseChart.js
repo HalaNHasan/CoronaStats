@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { globalChartSelector, countryChartSelector } from "../redux/selectors";
 import { options } from "./Chart.config.js";
+import Banner from "./Banner";
 
 import {
   Chart as ChartJS,
@@ -39,7 +40,7 @@ const CaseChart = ({ type }) => {
       {
         label: "Total Cases",
         data: casesChart.yCases,
-        backgroundColor: "rgba(53, 162, 230, 0.8)",
+        backgroundColor: "rgba(105,105,105, 0.8)",
       },
     ],
   };
@@ -51,7 +52,7 @@ const CaseChart = ({ type }) => {
       {
         label: "Total Deaths",
         data: casesChart.yDeaths,
-        backgroundColor: "rgba(53, 162, 230, 0.8)",
+        backgroundColor: "rgba(255,69,0, 0.7)",
       },
     ],
   };
@@ -63,9 +64,25 @@ const CaseChart = ({ type }) => {
     }
   }, []);
   return (
-    <div className="mt-5">
-      <Bar options={options} data={totalCasesData} width="100%" height="20%" />
-      <Bar options={options} data={totalDeathsData} width="100%" height="20%" />
+    <div className="m-5 flex-col">
+      {type == "country" && !casesChart.yCases.length ? (
+        <Banner message="Please Select Country & Dates!" />
+      ) : (
+        <>
+          <Bar
+            options={options}
+            data={totalCasesData}
+            width="100%"
+            height="20%"
+          />
+          <Bar
+            options={options}
+            data={totalDeathsData}
+            width="100%"
+            height="20%"
+          />
+        </>
+      )}
     </div>
   );
 };

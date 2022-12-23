@@ -8,7 +8,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: "Total Cases",
+      text: "",
     },
   },
   scales: {
