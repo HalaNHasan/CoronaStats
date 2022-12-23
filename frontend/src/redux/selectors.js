@@ -5,10 +5,12 @@ import { get } from "lodash";
 
 //fetched from redux store...
 const globalAllStats = (state) => get(state, "stats.globalAllStats");
+const selectedCountryStats = (state) =>
+  get(state, "stats.selectedCountryStats");
 
 //-------------------------------------------------
-//! chart selector/to build column chart
-export const caseChartSelector = createSelector(globalAllStats, (stats) => {
+//! chart selector for global stats/to build column chart
+export const globalChartSelector = createSelector(globalAllStats, (stats) => {
   //to prevent app crash if globalAllStats is not loaded yet
   if (!stats) {
     return;
@@ -39,5 +41,35 @@ export const caseChartSelector = createSelector(globalAllStats, (stats) => {
     yDeaths: totalDeaths_Yaxis,
   };
 });
+//-------------------------------------------------
+//! chart selector for country stats/to build column chart
+export const countryChartSelector = createSelector(
+  selectedCountryStats,
+  (stats) => {
+    //to prevent app crash if selectedCountryStats is not loaded yet
+    if (!stats) {
+      return;
+    }
 
+    //to represent dates on the X-axis
+    let Xaxis = [...stats]?.map((stat) => {
+      return stat["Date"].split("T")[0];
+    });
+
+    //to represent total confirmed cases on the Y-axis
+    let totalConfirmed_Yaxis = [...stats]?.map((stat) => {
+      return stat.Confirmed;
+    });
+    //to represent total deaths on the Y-axis
+    let totalDeaths_Yaxis = [...stats]?.map((stat) => {
+      return stat.Deaths;
+    });
+
+    return {
+      x: Xaxis,
+      yCases: totalConfirmed_Yaxis,
+      yDeaths: totalDeaths_Yaxis,
+    };
+  }
+);
 //-------------------------------------------------
