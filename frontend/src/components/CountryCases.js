@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import moment from "moment";
 import Container from "react-bootstrap/Container";
@@ -7,24 +7,27 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import Dropdown from "react-bootstrap/Dropdown";
 
 import { setSelectedCountryStats } from "../redux/reducers";
+import { countriesNamesSelector } from "../redux/selectors";
 
 const CountryCases = () => {
   const dispatch = useDispatch();
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [country, setCountry] = useState("");
+  const countriesNamesList = useSelector(countriesNamesSelector);
 
   //to prevent the user from picking dates in the future:
-  let maxDate = moment().format("YYYY-MM-DD");
+  let maxDate = moment().subtract(2, "days").format("YYYY-MM-DD");
 
   const fetchCountryStats = async () => {
     //to fetch stats for a specific country for a specific time-period:
     if (country && startDate && endDate) {
       await axios
         .get(
-          `https://api.covid19api.com/country/${country}?from=${startDate}T00:00:00Z&to=${endDate}T00:00:00Z`
+          `https://api.covid19api.com/country/${country.toLowerCase()}?from=${startDate}T00:00:00Z&to=${endDate}T00:00:00Z`
         )
         .then((res) => {
           console.log(res.data); //!result will be rendered in charts
@@ -39,11 +42,25 @@ const CountryCases = () => {
       console.log("all fields must be filled");
     }
   };
-  console.log(country);
+  //a component that returns a drop-down country item
+  const DropDownItem = ({ country, index }) => {
+    return (
+      <Dropdown.Item
+        key={index}
+        onClick={(e) => {
+          setCountry(country);
+        }}
+      >
+        {country}
+      </Dropdown.Item>
+    );
+  };
   useEffect(() => {
     //to reset countryStats with each render
     if (!country) {
       dispatch(setSelectedCountryStats([]));
+      setStartDate("");
+      setEndDate("");
     }
   }, []);
   return (
@@ -53,18 +70,32 @@ const CountryCases = () => {
           <Col
             xs={12}
             lg={3}
-            className="d-flex justify-content-center align-items-center"
+            className="d-flex justify-content-center align-items-center "
           >
-            <Form.Group className="mb-3 d-flex align-items-center gap-2">
-              <Form.Label style={{ width: "5rem" }}>Country</Form.Label>
-              <Form.Control
-                style={{ width: "10rem" }}
-                type="text"
-                value={country}
-                onChange={(e) => {
-                  setCountry(e.target.value);
-                }}
-              />
+            <Form.Group className="mb-3 d-flex align-items-center">
+              <Dropdown>
+                <Dropdown.Toggle
+                  variant="light"
+                  id="dropdown-basic"
+                  style={{ width: "16rem" }}
+                >
+                  {country ? country : "Select Country"}
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu
+                  style={{
+                    height: "360px",
+                    overflowY: "auto",
+                    width: "215px",
+                    overflowX: "hidden",
+                  }}
+                >
+                  {countriesNamesList &&
+                    countriesNamesList.map((country, ind) => {
+                      return <DropDownItem country={country} index={ind} />;
+                    })}
+                </Dropdown.Menu>
+              </Dropdown>
             </Form.Group>
           </Col>
           <Col
@@ -72,7 +103,7 @@ const CountryCases = () => {
             lg={3}
             className="d-flex justify-content-center align-items-center"
           >
-            <Form.Group className="mb-3 d-flex align-items-center gap-2">
+            <Form.Group className="mb-3 d-flex align-items-center">
               <Form.Label style={{ width: "5rem" }}>From</Form.Label>
               <Form.Control
                 min={"2020-01-22"}
@@ -91,7 +122,7 @@ const CountryCases = () => {
             lg={3}
             className="d-flex justify-content-center align-items-center"
           >
-            <Form.Group className="mb-3 d-flex align-items-center gap-2">
+            <Form.Group className="mb-3 d-flex align-items-center">
               <Form.Label style={{ width: "5rem" }}>to</Form.Label>
               <Form.Control
                 min={"2020-01-22"}
@@ -111,7 +142,7 @@ const CountryCases = () => {
             className="d-flex justify-content-center align-items-center"
           >
             <div
-              className="mb-3 d-flex align-items-center gap-2"
+              className="mb-3 d-flex align-items-center"
               style={{ width: "75%" }}
             >
               <Button
@@ -132,4 +163,4 @@ const CountryCases = () => {
 };
 
 export default CountryCases;
-//! limit user input in country field for the suggested countries only
+//! dates should match that given by the stat
