@@ -19,10 +19,6 @@ export const caseChartSelector = createSelector(globalAllStats, (stats) => {
     return new Date(a["Date"]) - new Date(b["Date"]);
   });
 
-  //format date to yy-mm-dd
-  //   stats = [...stats]?.map((stat) => {
-  //     return { ...stat, Date: stat["Date"].split("T")[0] };
-  //   });
   //to represent dates on the X-axis
   let Xaxis = [...stats]?.map((stat) => {
     return stat["Date"].split("T")[0];
@@ -37,19 +33,10 @@ export const caseChartSelector = createSelector(globalAllStats, (stats) => {
     return stat.TotalDeaths;
   });
 
-  //   for (const key of totalDeaths_Yaxis) {
-  //     console.log(key);
-  //   }
-
-  console.log(Xaxis);
-  //   return {
-  //     x: Xaxis,
-  //     y: totalConfirmed_Yaxis,
-  //   };
-
   return {
     x: Xaxis,
-    y: totalConfirmed_Yaxis,
+    yCases: totalConfirmed_Yaxis,
+    yDeaths: totalDeaths_Yaxis,
   };
 });
 
