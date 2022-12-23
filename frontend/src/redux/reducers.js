@@ -9,6 +9,7 @@ const statsSlice = createSlice({
     globalTotalStats: {},
     globalAllStats: [],
     filteredCountries: [],
+    selectedCountryStats: [],
   },
   reducers: {
     setAllStats: (state, action) => {
@@ -20,7 +21,6 @@ const statsSlice = createSlice({
     },
     setGlobalStats: (state, action) => {
       // action:{payload:globalAllStats}
-      console.log("from setGlobalStats reducer", action.payload);
       state.globalAllStats = action.payload || state.globalAllStats;
     },
     setIsLoading: (state, action) => {
@@ -32,7 +32,6 @@ const statsSlice = createSlice({
 
     setFilteredCountries: (state, action) => {
       // action:{payload:{stringContainsCountry}}
-      console.log("from setFilteredCountriesreducer", action.payload);
       if (action.payload) {
         state.filteredCountries = state.allStats.filter((country) => {
           return country.Country.toLowerCase().includes(
@@ -83,6 +82,10 @@ const statsSlice = createSlice({
               });
       }
     },
+    setSelectedCountryStats: (state, action) => {
+      // action:{payload:selectedCountryStats}
+      state.selectedCountryStats = action.payload || state.selectedCountryStats;
+    },
   },
 });
 
@@ -92,5 +95,6 @@ export const {
   setFilteredCountries,
   sortCountries,
   setGlobalStats,
+  setSelectedCountryStats,
 } = statsSlice.actions;
 export default statsSlice.reducer;
