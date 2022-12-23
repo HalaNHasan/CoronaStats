@@ -1,24 +1,23 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import axios from "axios";
+import moment from "moment";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { setSelectedCountryStats } from "../redux/reducers";
 
 const CountryCases = () => {
+  const dispatch = useDispatch();
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [country, setCountry] = useState("");
 
   //to prevent the user from picking dates in the future:
-  let dateNow = new Date();
-  let todaysDate = new Date();
-  let year = todaysDate.getFullYear();
-  let month = ("0" + (todaysDate.getMonth() + 1)).slice(-2);
-  let day = ("0" + todaysDate.getDate()).slice(-2);
-  let maxDate = year + "-" + month + "-" + day;
-  // console.log("date now: ", maxDate);
+  let maxDate = moment().format("YYYY-MM-DD");
+
   const fetchCountryStats = async () => {
     //to fetch stats for a specific country for a specific time-period:
     if (country && startDate && endDate) {
@@ -28,10 +27,7 @@ const CountryCases = () => {
         )
         .then((res) => {
           console.log(res.data); //!result will be rendered in charts
-          //reset all input fields...
-          setCountry("");
-          setEndDate("");
-          setStartDate("");
+          dispatch(setSelectedCountryStats(res.data));
         })
         .catch((error) => {
           //an error message to be displayed for the user later...
@@ -72,6 +68,7 @@ const CountryCases = () => {
               <Form.Label style={{ width: "5rem" }}>From</Form.Label>
               <Form.Control
                 min={"2020-01-22"}
+                max={maxDate}
                 style={{ width: "10rem" }}
                 type="date"
                 value={startDate}
@@ -89,6 +86,7 @@ const CountryCases = () => {
             <Form.Group className="mb-3 d-flex align-items-center gap-2">
               <Form.Label style={{ width: "5rem" }}>to</Form.Label>
               <Form.Control
+                min={"2020-01-22"}
                 max={maxDate}
                 style={{ width: "10rem" }}
                 type="date"
