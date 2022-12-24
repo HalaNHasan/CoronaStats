@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
 import { sortCountries } from "../redux/reducers";
-import { FaArrowUp, FaArrowDown } from "react-icons/fa";
+import { BiDownArrow, BiUpArrow } from "react-icons/bi";
 import Banner from "./Banner";
 
 const CountriesList = () => {
@@ -14,121 +14,128 @@ const CountriesList = () => {
       filteredCountries: state.stats.filteredCountries,
     };
   });
-  console.log(filteredCountries);
   return (
     <div className="mt-3">
       <Container>
         {filteredCountries?.length != 0 ? (
-          <Table striped bordered hover variant="dark">
+          <Table striped bordered hover variant="dark" responsive>
             <thead>
               <tr>
-                <th>Country</th>
+                <th className="align-middle">Country</th>
                 <th>
-                  Total Confirmed
-                  <div>
-                    <FaArrowUp
-                      role="button"
-                      onClick={() => {
-                        dispatch(
-                          sortCountries({
-                            type: "totalConfirmed",
-                            direction: "up",
-                          })
-                        );
-                      }}
-                    />
-                    <FaArrowDown
-                      role="button"
-                      onClick={() => {
-                        dispatch(
-                          sortCountries({
-                            type: "totalConfirmed",
-                            direction: "down",
-                          })
-                        );
-                      }}
-                    />
+                  <div className="d-flex justify-content-between">
+                    Total Confirmed
+                    <div className="d-flex flex-column">
+                      <BiUpArrow
+                        role="button"
+                        onClick={() => {
+                          dispatch(
+                            sortCountries({
+                              type: "totalConfirmed",
+                              direction: "up",
+                            })
+                          );
+                        }}
+                      />
+                      <BiDownArrow
+                        role="button"
+                        onClick={() => {
+                          dispatch(
+                            sortCountries({
+                              type: "totalConfirmed",
+                              direction: "down",
+                            })
+                          );
+                        }}
+                      />
+                    </div>
                   </div>
                 </th>
                 <th>
-                  New Confirmed
-                  <div>
-                    <FaArrowUp
-                      role="button"
-                      onClick={() => {
-                        dispatch(
-                          sortCountries({
-                            type: "newConfirmed",
-                            direction: "up",
-                          })
-                        );
-                      }}
-                    />
-                    <FaArrowDown
-                      role="button"
-                      onClick={() => {
-                        dispatch(
-                          sortCountries({
-                            type: "newConfirmed",
-                            direction: "down",
-                          })
-                        );
-                      }}
-                    />
+                  <div className="d-flex justify-content-between">
+                    New Confirmed
+                    <div className="d-flex flex-column">
+                      <BiUpArrow
+                        role="button"
+                        onClick={() => {
+                          dispatch(
+                            sortCountries({
+                              type: "newConfirmed",
+                              direction: "up",
+                            })
+                          );
+                        }}
+                      />
+                      <BiDownArrow
+                        role="button"
+                        onClick={() => {
+                          dispatch(
+                            sortCountries({
+                              type: "newConfirmed",
+                              direction: "down",
+                            })
+                          );
+                        }}
+                      />
+                    </div>
                   </div>
                 </th>
                 <th>
-                  Total Deaths
-                  <div>
-                    <FaArrowUp
-                      role="button"
-                      onClick={() => {
-                        dispatch(
-                          sortCountries({
-                            type: "totalDeaths",
-                            direction: "up",
-                          })
-                        );
-                      }}
-                    />
-                    <FaArrowDown
-                      role="button"
-                      onClick={() => {
-                        dispatch(
-                          sortCountries({
-                            type: "totalDeaths",
-                            direction: "down",
-                          })
-                        );
-                      }}
-                    />
+                  <div className="d-flex justify-content-between">
+                    Total Deaths
+                    <div className="d-flex flex-column">
+                      <BiUpArrow
+                        role="button"
+                        onClick={() => {
+                          dispatch(
+                            sortCountries({
+                              type: "totalDeaths",
+                              direction: "up",
+                            })
+                          );
+                        }}
+                      />
+                      <BiDownArrow
+                        role="button"
+                        onClick={() => {
+                          dispatch(
+                            sortCountries({
+                              type: "totalDeaths",
+                              direction: "down",
+                            })
+                          );
+                        }}
+                      />
+                    </div>
                   </div>
                 </th>
                 <th>
-                  New Deaths
-                  <div>
-                    <FaArrowUp
-                      role="button"
-                      onClick={() => {
-                        dispatch(
-                          sortCountries({
-                            type: "newDeaths",
-                            direction: "up",
-                          })
-                        );
-                      }}
-                    />
-                    <FaArrowDown
-                      role="button"
-                      onClick={() => {
-                        dispatch(
-                          sortCountries({
-                            type: "newDeaths",
-                            direction: "down",
-                          })
-                        );
-                      }}
-                    />
+                  <div className="d-flex justify-content-between">
+                    New Deaths
+                    <div className="d-flex flex-column">
+                      <BiUpArrow
+                        role="button"
+                        onClick={() => {
+                          dispatch(
+                            sortCountries({
+                              type: "newDeaths",
+                              direction: "up",
+                            })
+                          );
+                        }}
+                      />
+                      <BiDownArrow
+                        role="button"
+                        onClick={() => {
+                          dispatch(
+                            sortCountries({
+                              type: "newDeaths",
+                              direction: "down",
+                            })
+                          );
+                        }}
+                      />
+                    </div>
                   </div>
                 </th>
               </tr>
@@ -157,5 +164,4 @@ const CountriesList = () => {
 };
 
 export default CountriesList;
-//!sorting arrows,table scroll,filter reset after navigating other page
 //! add label to indicate dates
