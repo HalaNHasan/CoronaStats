@@ -4,7 +4,7 @@ const statsSlice = createSlice({
   name: "stats",
   initialState: {
     isLoading: false,
-    message: "",
+    modalMessage: "",
     allStats: [],
     globalTotalStats: {},
     globalAllStats: [],
@@ -23,15 +23,12 @@ const statsSlice = createSlice({
       // action:{payload:globalAllStats}
       state.globalAllStats = action.payload || state.globalAllStats;
     },
-    setIsLoading: (state, action) => {
-      console.log(
-        "isLoading from setIsLoading reducer",
-        action.payload.isLoading
-      );
-      // action:{payload:{isLoading:true or false,message:"message to the user"}}
+    setModal: (state, action) => {
+      console.log("isLoading from setModal reducer", action.payload.isLoading);
+      // action:{payload:{isLoading:true or false,modalMessage:"message to the user"}}
       //to show/unshow LoadingModal component
       state.isLoading = action.payload.isLoading;
-      state.message = action.payload.message;
+      state.modalMessage = action.payload.modalMessage;
     },
 
     setFilteredCountries: (state, action) => {
@@ -94,7 +91,7 @@ const statsSlice = createSlice({
 });
 
 export const {
-  setIsLoading,
+  setModal,
   setAllStats,
   setFilteredCountries,
   sortCountries,

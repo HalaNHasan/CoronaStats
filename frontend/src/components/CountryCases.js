@@ -9,7 +9,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 
-import { setSelectedCountryStats, setIsLoading } from "../redux/reducers";
+import { setSelectedCountryStats, setModal } from "../redux/reducers";
 import { countriesNamesSelector } from "../redux/selectors";
 
 const CountryCases = () => {
@@ -25,24 +25,41 @@ const CountryCases = () => {
   const fetchCountryStats = async () => {
     //to fetch stats for a specific country for a specific time-period:
     if (country && startDate && endDate) {
-      dispatch(setIsLoading({ isLoading: true }));
-      await axios
-        .get(
-          `https://api.covid19api.com/country/${country.toLowerCase()}?from=${startDate}T00:00:00Z&to=${endDate}T00:00:00Z`
-        )
-        .then((res) => {
-          dispatch(setSelectedCountryStats(res.data));
-          if (res.data) {
-            dispatch(setIsLoading({ isLoading: false }));
-          }
-        })
-        .catch((error) => {
-          //an error message to be displayed for the user later...
-          console.log(error.message);
-        });
+      if (new Date(startDate) > new Date(endDate)) {
+        dispatch(
+          setModal({
+            isLoading: true,
+            modalMessage: "Start date must be less than end date!",
+          })
+        );
+      } else {
+        dispatch(setModal({ isLoading: true }));
+        await axios
+          .get(
+            `https://api.covid19api.com/country/${country.toLowerCase()}?from=${startDate}T00:00:00Z&to=${endDate}T00:00:00Z`
+          )
+          .then((res) => {
+            dispatch(setSelectedCountryStats(res.data));
+            if (res.data) {
+              dispatch(setModal({ isLoading: false }));
+            }
+          })
+          .catch((error) => {
+            dispatch(
+              setModal({
+                isLoading: true,
+                modalMessage: error.message,
+              })
+            );
+          });
+      }
     } else {
-      //!LoadingMesssage component will be shown telling the user to fill all input fields
-      console.log("all fields must be filled");
+      dispatch(
+        setModal({
+          isLoading: true,
+          modalMessage: "All fields must be filled",
+        })
+      );
     }
   };
   //a component that returns a drop-down country item
