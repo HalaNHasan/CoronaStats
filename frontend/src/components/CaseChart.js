@@ -31,15 +31,14 @@ const CaseChart = ({ type }) => {
   } else {
     casesChart = countryStats;
   }
-  // options.plugins.title.text = "test";
-  console.log("from case chart", casesChart);
+  // console.log("from case chart", casesChart);
   //for the first chart
   const totalCasesData = {
-    labels: casesChart.x,
+    labels: casesChart.x_ByDay,
     datasets: [
       {
         label: "Total Cases",
-        data: casesChart.yCases,
+        data: casesChart.yCasesByDay,
         backgroundColor: "rgba(105,105,105, 0.8)",
       },
     ],
@@ -47,11 +46,11 @@ const CaseChart = ({ type }) => {
 
   //for the second chart
   const totalDeathsData = {
-    labels: casesChart.x,
+    labels: casesChart.x_ByDay,
     datasets: [
       {
         label: "Total Deaths",
-        data: casesChart.yDeaths,
+        data: casesChart.yCasesByDay,
         backgroundColor: "rgba(255,69,0, 0.7)",
       },
     ],
@@ -65,7 +64,7 @@ const CaseChart = ({ type }) => {
   }, []);
   return (
     <div className="m-5 flex-col">
-      {type == "country" && !casesChart?.yCases?.length ? (
+      {type == "country" && !casesChart?.yCasesByDay?.length ? (
         <Banner message="Please Select Country & Dates!" />
       ) : (
         <>

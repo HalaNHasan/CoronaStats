@@ -1,7 +1,8 @@
 //this file is to sort and filter cases to be represented graphically by Chart component:
 import { createSelector } from "reselect";
 //to interact with redux store:
-import { get } from "lodash";
+import { get, groupBy } from "lodash";
+import moment from "moment";
 
 //fetched from redux store...
 const globalAllStats = (state) => get(state, "stats.globalAllStats");
@@ -20,25 +21,51 @@ export const globalChartSelector = createSelector(globalAllStats, (stats) => {
   stats = [...stats]?.sort((a, b) => {
     return new Date(a["Date"]) - new Date(b["Date"]);
   });
-
+  //! to draw charts of the globe stats by days:
   //to represent dates on the X-axis
-  let Xaxis = [...stats]?.map((stat) => {
+  let Xaxis_ByDay = [...stats]?.map((stat) => {
     return stat["Date"].split("T")[0];
   });
 
-  //to represent total confirmed cases on the Y-axis
-  let totalConfirmed_Yaxis = [...stats]?.map((stat) => {
+  //to represent total confirmed cases by day on the Y-axis
+  let totalConfirmedByDay_Yaxis = [...stats]?.map((stat) => {
     return stat.TotalConfirmed;
   });
-  //to represent total deaths on the Y-axis
-  let totalDeaths_Yaxis = [...stats]?.map((stat) => {
+  //to represent total deaths by day on the Y-axis
+  let totalDeathsByDay_Yaxis = [...stats]?.map((stat) => {
     return stat.TotalDeaths;
   });
 
+  //! to draw charts of the globe stats by months:
+  //group cases by months:
+  let totalByMonth = groupBy(stats, (stat) => {
+    return moment(stat["Date"]).startOf("month").format("YYYY/MM");
+  }); //totalByMonth={month1:[],month2:[]}
+
+  //to represent months on the X-axis
+  let Xaxis_ByMonth = Object.keys(totalByMonth);
+
+  //to represent total confirmed cases by month on the Y-axis
+  let totalConfirmedByMonth_Yaxis = Object.values(totalByMonth).map((stat) => {
+    return [...stat]?.reduce((accumulator, stat2) => {
+      return accumulator + stat2.TotalConfirmed;
+    }, 0);
+  });
+
+  //to represent total deaths by month on the Y-axis
+  let totalDeathsByMonth_Yaxis = Object.values(totalByMonth).map((stat) => {
+    return [...stat]?.reduce((accumulator, stat2) => {
+      return accumulator + stat2.TotalDeaths;
+    }, 0);
+  });
+
   return {
-    x: Xaxis,
-    yCases: totalConfirmed_Yaxis,
-    yDeaths: totalDeaths_Yaxis,
+    x_ByDay: Xaxis_ByDay,
+    yCasesByDay: totalConfirmedByDay_Yaxis,
+    yDeathsByDay: totalDeathsByDay_Yaxis,
+    x_ByMonth: Xaxis_ByMonth,
+    yCasesByMonth: totalConfirmedByMonth_Yaxis,
+    yDeathsByMonth: totalDeathsByMonth_Yaxis,
   };
 });
 //-------------------------------------------------
@@ -52,23 +79,23 @@ export const countryChartSelector = createSelector(
     }
 
     //to represent dates on the X-axis
-    let Xaxis = [...stats]?.map((stat) => {
+    let Xaxis_ByDay = [...stats]?.map((stat) => {
       return stat["Date"].split("T")[0];
     });
 
-    //to represent total confirmed cases on the Y-axis
-    let totalConfirmed_Yaxis = [...stats]?.map((stat) => {
+    //to represent total confirmed cases by day on the Y-axis
+    let totalConfirmedByDay_Yaxis = [...stats]?.map((stat) => {
       return stat.Confirmed;
     });
-    //to represent total deaths on the Y-axis
-    let totalDeaths_Yaxis = [...stats]?.map((stat) => {
+    //to represent total deaths by day on the Y-axis
+    let totalDeathsByDay_Yaxis = [...stats]?.map((stat) => {
       return stat.Deaths;
     });
 
     return {
-      x: Xaxis,
-      yCases: totalConfirmed_Yaxis,
-      yDeaths: totalDeaths_Yaxis,
+      x_ByDay: Xaxis_ByDay,
+      yCasesByDay: totalConfirmedByDay_Yaxis,
+      yDeathsByDay: totalDeathsByDay_Yaxis,
     };
   }
 );

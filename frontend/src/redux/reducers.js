@@ -19,14 +19,13 @@ const statsSlice = createSlice({
       state.allStats = action.payload.allData.Countries || state.allStats;
       state.globalTotalStats =
         action.payload.allData.Global || state.globalTotalStats;
-      state.filteredCountries = action.payload.allData.Countries.slice(0, 11);
+      state.filteredCountries = action.payload.allData?.Countries?.slice(0, 11);
     },
     setGlobalStats: (state, action) => {
       // action:{payload:globalAllStats}
       state.globalAllStats = action.payload || state.globalAllStats;
     },
     setModal: (state, action) => {
-      console.log("isLoading from setModal reducer", action.payload.isLoading);
       // action:{payload:{isLoading:true or false,modalMessage:"message to the user"}}
       //to show/unshow LoadingModal component
       state.isLoading = action.payload.isLoading;
