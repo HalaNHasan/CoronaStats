@@ -24,8 +24,12 @@ const statsSlice = createSlice({
       state.globalAllStats = action.payload || state.globalAllStats;
     },
     setIsLoading: (state, action) => {
+      console.log(
+        "isLoading from setIsLoading reducer",
+        action.payload.isLoading
+      );
       // action:{payload:{isLoading:true or false,message:"message to the user"}}
-      //to show/unshow LoadingMessage component
+      //to show/unshow LoadingModal component
       state.isLoading = action.payload.isLoading;
       state.message = action.payload.message;
     },
