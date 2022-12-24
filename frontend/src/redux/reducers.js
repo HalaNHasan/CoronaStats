@@ -10,6 +10,8 @@ const statsSlice = createSlice({
     globalAllStats: [],
     filteredCountries: [],
     selectedCountryStats: [],
+    firstIndex: 0,
+    lastIndex: 11,
   },
   reducers: {
     setAllStats: (state, action) => {
@@ -17,7 +19,7 @@ const statsSlice = createSlice({
       state.allStats = action.payload.allData.Countries || state.allStats;
       state.globalTotalStats =
         action.payload.allData.Global || state.globalTotalStats;
-      state.filteredCountries = action.payload.allData.Countries;
+      state.filteredCountries = action.payload.allData.Countries.slice(0, 11);
     },
     setGlobalStats: (state, action) => {
       // action:{payload:globalAllStats}
@@ -40,7 +42,7 @@ const statsSlice = createSlice({
           );
         });
       } else {
-        state.filteredCountries = state.allStats;
+        state.filteredCountries = [...state.allStats].slice(0, 11);
       }
     },
     sortCountries: (state, action) => {
@@ -87,6 +89,32 @@ const statsSlice = createSlice({
       // action:{payload:selectedCountryStats}
       state.selectedCountryStats = action.payload || state.selectedCountryStats;
     },
+    setNextPage: (state) => {
+      state.firstIndex = state.firstIndex + 11 > 0 ? state.firstIndex + 11 : 0;
+      state.lastIndex = state.lastIndex + 11 > 197 ? 197 : state.lastIndex + 11;
+      state.filteredCountries = [...state.allStats].slice(
+        state.firstIndex,
+        state.lastIndex
+      );
+    },
+    setPrevPage: (state) => {
+      state.firstIndex = state.firstIndex - 11 > 0 ? state.firstIndex - 11 : 0;
+      state.lastIndex =
+        state.lastIndex - 11 >= 197 ? 197 : state.lastIndex - 11;
+      state.filteredCountries = [...state.allStats].slice(
+        state.firstIndex,
+        state.lastIndex
+      );
+    },
+    resetPagination: (state) => {
+      // action:{payload:{firstIndex,lastIndex}}
+      state.firstIndex = 0;
+      state.lastIndex = 11;
+      state.filteredCountries = [...state.allStats].slice(
+        state.firstIndex,
+        state.lastIndex
+      );
+    },
   },
 });
 
@@ -97,5 +125,8 @@ export const {
   sortCountries,
   setGlobalStats,
   setSelectedCountryStats,
+  setNextPage,
+  setPrevPage,
+  resetPagination,
 } = statsSlice.actions;
 export default statsSlice.reducer;
