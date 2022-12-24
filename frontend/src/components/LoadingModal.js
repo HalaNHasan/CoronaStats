@@ -15,7 +15,6 @@ const LoadingModal = () => {
       modalMessage: state.stats.modalMessage,
     };
   });
-  console.log("from modalLoading: ", isLoading, modalMessage);
   return (
     <Modal centered show={isLoading} size="sm">
       <Modal.Body className="d-flex flex-column align-items-center text-center">

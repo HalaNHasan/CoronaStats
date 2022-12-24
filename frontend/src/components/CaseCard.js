@@ -26,12 +26,7 @@ const CaseCard = ({ totals }) => {
               <Card.Subtitle className="mb-2">
                 {globalTotalStats.TotalConfirmed}
               </Card.Subtitle>
-              <FaDisease
-                className="fs-1 text-muted"
-                onClick={() => {
-                  console.log("hi");
-                }}
-              />
+              <FaDisease className="fs-1 text-muted" />
             </Card.Body>
           </Card>
         </Col>
@@ -63,12 +58,7 @@ const CaseCard = ({ totals }) => {
               <Card.Subtitle className="mb-2">
                 {globalTotalStats.TotalRecovered}
               </Card.Subtitle>
-              <GiZigzagLeaf
-                className="fs-1 text-muted"
-                onClick={() => {
-                  console.log("hi");
-                }}
-              />
+              <GiZigzagLeaf className="fs-1 text-muted" />
             </Card.Body>
           </Card>
         </Col>

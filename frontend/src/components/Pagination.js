@@ -16,7 +16,6 @@ const Pagination = () => {
     };
   });
 
-  console.log(firstIndex, lastIndex);
   useEffect(() => {
     dispatch(resetPagination());
   }, []);

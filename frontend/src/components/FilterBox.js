@@ -16,9 +16,13 @@ const FilterBox = () => {
   }, []);
   return (
     <div className="m-3 d-flex justify-content-center">
-      <FloatingLabel controlId="floatingInput" label="Country" className="mb-3">
+      <FloatingLabel
+        controlId="floatingInput"
+        label="Search by country..."
+        className="mb-3"
+      >
         <Form.Control
-          placeholder="Country"
+          placeholder="Search by country"
           aria-describedby="basic-addon2"
           onChange={(e) => {
             dispatch(setFilteredCountries(e.target.value));

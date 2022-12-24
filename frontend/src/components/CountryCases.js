@@ -39,6 +39,7 @@ const CountryCases = () => {
             `https://api.covid19api.com/country/${country.toLowerCase()}?from=${startDate}T00:00:00Z&to=${endDate}T00:00:00Z`
           )
           .then((res) => {
+            console.log(res.data);
             dispatch(setSelectedCountryStats(res.data));
             if (res.data) {
               dispatch(setModal({ isLoading: false }));
