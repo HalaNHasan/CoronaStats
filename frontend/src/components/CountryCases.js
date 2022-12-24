@@ -9,7 +9,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 
-import { setSelectedCountryStats } from "../redux/reducers";
+import { setSelectedCountryStats, setIsLoading } from "../redux/reducers";
 import { countriesNamesSelector } from "../redux/selectors";
 
 const CountryCases = () => {
@@ -25,13 +25,16 @@ const CountryCases = () => {
   const fetchCountryStats = async () => {
     //to fetch stats for a specific country for a specific time-period:
     if (country && startDate && endDate) {
+      dispatch(setIsLoading({ isLoading: true }));
       await axios
         .get(
           `https://api.covid19api.com/country/${country.toLowerCase()}?from=${startDate}T00:00:00Z&to=${endDate}T00:00:00Z`
         )
         .then((res) => {
-          console.log(res.data); //!result will be rendered in charts
           dispatch(setSelectedCountryStats(res.data));
+          if (res.data) {
+            dispatch(setIsLoading({ isLoading: false }));
+          }
         })
         .catch((error) => {
           //an error message to be displayed for the user later...

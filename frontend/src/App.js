@@ -9,12 +9,13 @@ import CountriesPage from "./pages/CountriesPage";
 import CountryPage from "./pages/CountryPage";
 import ErrorPage from "./pages/ErrorPage";
 import NavBar from "./components/NavBar";
-import { setAllStats, setGlobalStats } from "./redux/reducers";
+import { setAllStats, setGlobalStats, setIsLoading } from "./redux/reducers";
 
 function App() {
   const dispatch = useDispatch();
   //to fetch all stats upon loading the app
   const fetchAllStats = async () => {
+    dispatch(setIsLoading({ isLoading: true }));
     //to fetch stats summary for all countries up-to-date:
     await axios
       .get("https://api.covid19api.com/summary")
@@ -22,6 +23,10 @@ function App() {
         console.log(res.data);
         //to save allStats to redux store
         dispatch(setAllStats({ allData: res.data }));
+        if (res.data.Global.NewConfirmed) {
+          dispatch(setIsLoading({ isLoading: false }));
+          console.log("hereeeeeeeeee");
+        }
       })
       .catch((error) => {
         //an error message to be displayed for the user later...
@@ -48,7 +53,7 @@ function App() {
 
   useEffect(() => {
     fetchAllStats();
-  });
+  }, []);
 
   return (
     <>

@@ -1,13 +1,14 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import CountryCases from "../components/CountryCases";
 import CaseChart from "../components/CaseChart";
+import LoadingModal from "../components/LoadingModal";
 
 const CountryPage = () => {
   return (
     <>
       <CountryCases />
       <CaseChart type="country" />
+      <LoadingModal />
     </>
   );
 };
