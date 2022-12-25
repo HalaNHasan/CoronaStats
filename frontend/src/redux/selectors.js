@@ -7,7 +7,7 @@ import moment from "moment";
 //fetched from redux store...
 const globalAllStats = (state) => get(state, "stats.globalAllStats");
 const selectedCountryStats = (state) =>
-  get(state, "stats.selectedCountryStats");
+  get(state, "stats.countryAllCases.selectedCountryStats");
 const allStats = (state) => get(state, "stats.allStats");
 //-------------------------------------------------
 //! chart selector for global stats by day/to build column chart
@@ -123,7 +123,7 @@ export const countryChartSelector = createSelector(
   }
 );
 //-------------------------------------------------
-//! chart selector for country stats/to build column chart
+//! to extract countries names from allStats stae
 export const countriesNamesSelector = createSelector(allStats, (countries) => {
   //to prevent app crash if allStats is not loaded yet
   if (!countries) {

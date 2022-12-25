@@ -9,11 +9,19 @@ const statsSlice = createSlice({
     globalTotalStats: {},
     globalAllStats: [],
     filteredCountries: [],
-    selectedCountryStats: [],
     firstIndex: 0,
     lastIndex: 11,
     //to set global chart type :daily or monthly
     globalChartType: "daily",
+    //to store total recovered cases by country since it's not correctly returned by the API
+    countryAllCases: {
+      selectedCountryStats: [],
+      TotalRecovered: 0,
+      TotalConfirmed: 0,
+      TotalDeaths: 0,
+      lastRecordedCases: "",
+      lastRecordedRecovered: "2021-08-04",
+    },
   },
   reducers: {
     setAllStats: (state, action) => {
@@ -26,6 +34,13 @@ const statsSlice = createSlice({
     setGlobalStats: (state, action) => {
       // action:{payload:globalAllStats}
       state.globalAllStats = action.payload || state.globalAllStats;
+      //to get total recovered cases;since it's not given by the API!
+      state.globalTotalStats.TotalRecovered = [...state.globalAllStats]?.reduce(
+        (accumulator, stat) => {
+          return accumulator + stat.NewRecovered;
+        },
+        0
+      );
     },
     setModal: (state, action) => {
       // action:{payload:{isLoading:true or false,modalMessage:"message to the user"}}
@@ -87,8 +102,38 @@ const statsSlice = createSlice({
       }
     },
     setSelectedCountryStats: (state, action) => {
-      // action:{payload:selectedCountryStats}
-      state.selectedCountryStats = action.payload;
+      // action:{payload:{selectedCountryStats,totalRecovered,lastRecordedRecovered}}
+      console.log("last value sent to redux..", action.payload);
+      state.countryAllCases.selectedCountryStats =
+        action.payload.selectedCountryStats ||
+        state.countryAllCases.selectedCountryStats;
+
+      state.countryAllCases.lastRecordedRecovered =
+        action.payload.lastRecordedRecovered ||
+        state.countryAllCases.lastRecordedRecovered;
+
+      state.countryAllCases.lastRecordedCases =
+        action.payload.selectedCountryStats?.length > 0
+          ? action.payload.selectedCountryStats[
+              action.payload.selectedCountryStats.length - 1
+            ]["Date"]
+          : state.countryAllCases.lastRecordedCases;
+
+      state.countryAllCases.TotalRecovered = action.payload.totalRecovered;
+
+      state.countryAllCases.TotalDeaths =
+        action.payload.selectedCountryStats?.length > 0
+          ? action.payload.selectedCountryStats[
+              action.payload.selectedCountryStats.length - 1
+            ].Deaths
+          : state.countryAllCases.TotalDeaths;
+
+      state.countryAllCases.TotalConfirmed =
+        action.payload.selectedCountryStats?.length > 0
+          ? action.payload.selectedCountryStats[
+              action.payload.selectedCountryStats?.length - 1
+            ].Confirmed
+          : state.countryAllCases.TotalConfirmed;
     },
     setNextPage: (state) => {
       state.firstIndex = state.firstIndex + 11 > 0 ? state.firstIndex + 11 : 0;
