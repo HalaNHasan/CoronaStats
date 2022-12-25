@@ -20,11 +20,16 @@ function App() {
     await axios
       .get("https://api.covid19api.com/summary")
       .then((res) => {
-        // console.log(res.data);
-        //to save allStats to redux store
         dispatch(setAllStats({ allData: res.data }));
         if (res.data.Global.NewConfirmed) {
           dispatch(setModal({ isLoading: false }));
+        } else {
+          dispatch(
+            setModal({
+              isLoading: true,
+              modalMessage: "Please revisit in 2-3 minutes!",
+            })
+          );
         }
       })
       .catch((error) => {

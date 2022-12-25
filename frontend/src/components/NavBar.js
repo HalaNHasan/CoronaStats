@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Nav from "react-bootstrap/Nav";
@@ -5,6 +6,7 @@ import Navbar from "react-bootstrap/Navbar";
 import logo from "../assets/logo.png";
 const NavBar = () => {
   const navigate = useNavigate();
+  const [expanded, setExpanded] = useState(false);
 
   return (
     <Navbar
@@ -12,6 +14,7 @@ const NavBar = () => {
       expand="lg"
       variant="dark"
       className="px-2 bg-dark"
+      expanded={expanded}
     >
       <Navbar.Brand
         role="button"
@@ -28,7 +31,10 @@ const NavBar = () => {
         />{" "}
         CoronaStats
       </Navbar.Brand>
-      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Toggle
+        aria-controls="responsive-navbar-nav"
+        onClick={() => setExpanded(expanded ? false : true)}
+      />
       <Navbar.Collapse
         id="responsive-navbar-nav"
         className="justify-content-end"
@@ -37,6 +43,7 @@ const NavBar = () => {
           <Nav.Link
             onClick={() => {
               navigate("/");
+              setExpanded(false);
             }}
           >
             World
@@ -45,6 +52,7 @@ const NavBar = () => {
           <Nav.Link
             onClick={() => {
               navigate("/countries");
+              setExpanded(false);
             }}
           >
             Countries
@@ -53,6 +61,7 @@ const NavBar = () => {
           <Nav.Link
             onClick={() => {
               navigate(`/country`);
+              setExpanded(false);
             }}
           >
             Country

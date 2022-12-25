@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
@@ -146,17 +146,17 @@ const CountriesList = () => {
                   return (
                     <tr key={country.ID}>
                       <td>{country.Country}</td>
-                      <td>{country.TotalConfirmed}</td>
-                      <td>{country.NewConfirmed}</td>
-                      <td>{country.TotalDeaths}</td>
-                      <td>{country.NewDeaths}</td>
+                      <td>{country.TotalConfirmed.toLocaleString("en-US")}</td>
+                      <td>{country.NewConfirmed.toLocaleString("en-US")}</td>
+                      <td>{country.TotalDeaths.toLocaleString("en-US")}</td>
+                      <td>{country.NewDeaths.toLocaleString("en-US")}</td>
                     </tr>
                   );
                 })}
             </tbody>
           </Table>
         ) : (
-          <Banner message="No countries match your input!" />
+          <Banner message="No countries match your input!" color="light" />
         )}
       </Container>
     </div>
@@ -164,4 +164,3 @@ const CountriesList = () => {
 };
 
 export default CountriesList;
-//! add label to indicate dates

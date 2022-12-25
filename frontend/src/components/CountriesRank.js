@@ -9,7 +9,7 @@ import Container from "react-bootstrap/Container";
 import {
   sortCountries,
   resetFilteredCountries,
-  setFilteredCountries,
+  resetPagination,
 } from "../redux/reducers";
 
 const CountriesRank = () => {
@@ -20,7 +20,7 @@ const CountriesRank = () => {
       <Container>
         <Row className="">
           <Col
-            sm={3}
+            sm={12}
             lg={12}
             className="d-flex flex-sm-column flex-lg-row justify-content-between align-items-center text-center"
           >
@@ -102,7 +102,7 @@ const CountriesRank = () => {
                 <Nav.Link
                   eventKey="fifth"
                   onClick={() => {
-                    dispatch(setFilteredCountries());
+                    dispatch(resetPagination());
                     //
                   }}
                 >

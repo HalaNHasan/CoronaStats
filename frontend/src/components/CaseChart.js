@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   globalChartSelectorByDay,
   globalChartSelectorByMonth,
@@ -27,8 +27,6 @@ ChartJS.register(
   Legend
 );
 const CaseChart = ({ type }) => {
-  const dispatch = useDispatch();
-  // const [casesChart, setCaseChart] = useState({});
   let casesChart;
   const globalStatsByMonth = useSelector(globalChartSelectorByMonth);
   const globalStatsByDay = useSelector(globalChartSelectorByDay);
@@ -47,8 +45,7 @@ const CaseChart = ({ type }) => {
   } else {
     casesChart = countryStats;
   }
-  // console.log("from case chart", globalChartType, type);
-  // console.log("casesChart", casesChart);
+
   //for the first chart-cases
   const totalCasesData = {
     labels: casesChart.x,
@@ -56,7 +53,7 @@ const CaseChart = ({ type }) => {
       {
         label: "Total Cases",
         data: casesChart.yCases,
-        backgroundColor: "rgba(105,105,105, 0.8)",
+        backgroundColor: "rgba(255, 193, 7,0.85)",
       },
     ],
   };
@@ -68,15 +65,14 @@ const CaseChart = ({ type }) => {
       {
         label: "Total Deaths",
         data: casesChart.yDeaths,
-        backgroundColor: "rgba(255,69,0, 0.7)",
+        backgroundColor: "rgba(0,0,0,0.85)",
       },
     ],
   };
-
   return (
     <div className="m-5 flex-col">
       {type == "country" && !casesChart?.yCases?.length ? (
-        <Banner message="Please Select Country & Dates!" />
+        <Banner message="Please Select Country & Dates!" color="light" />
       ) : (
         <>
           <Bar

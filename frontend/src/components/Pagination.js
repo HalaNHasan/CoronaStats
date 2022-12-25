@@ -22,7 +22,7 @@ const Pagination = () => {
   }, []);
   return (
     <>
-      {filteredCountries.length < 12 ? (
+      {filteredCountries?.length < 12 && filteredCountries?.length != 0 ? (
         <div
           className="d-flex justify-content-between align-items-center flex-wrap w-100"
           style={{ position: "relative" }}

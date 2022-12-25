@@ -19,11 +19,11 @@ const FilterBox = () => {
       <FloatingLabel
         controlId="floatingInput"
         label="Search by country..."
-        className="mb-3"
+        className="mb-3 fw-bolder"
       >
         <Form.Control
           placeholder="Search by country"
-          aria-describedby="basic-addon2"
+          className="fw-bold"
           onChange={(e) => {
             dispatch(setFilteredCountries(e.target.value));
             setCountry(e.target.value);

@@ -35,19 +35,18 @@ const CaseCard = ({ type }) => {
   } else {
     showCards = false;
   }
-  console.log("show cards?", countryAllCases.selectedCountryStats, showCards);
   return (
     <>
       {showCards ? (
         <Container>
-          <Row className="mt-4 d-flex justify-content-between align-items-center w-100">
+          <Row className="mt-4 d-flex flex-sm-column flex-lg-row justify-content-between align-items-center w-100 mx-auto g-2">
             {/* confirmed card-start */}
-            <Col sm={12} lg={4}>
+            <Col sm={12} lg={3}>
               <Card className="bg-dark text-warning border-0 flex-col align-items-center text-center">
                 <Card.Body>
                   <Card.Title>Total Cases</Card.Title>
                   <Card.Subtitle className="mb-2 text-muted">
-                    Last recorded on {lastRecordedCases}
+                    Recorded: {lastRecordedCases}
                   </Card.Subtitle>
                   <Card.Subtitle className="mb-2">
                     {totalStats?.TotalConfirmed?.toLocaleString("en-US")}
@@ -58,12 +57,12 @@ const CaseCard = ({ type }) => {
             </Col>
             {/* confirmed card-end */}
             {/* death card-start */}
-            <Col sm={12} lg={4}>
+            <Col sm={12} lg={3}>
               <Card className="bg-dark text-warning border-0 flex-col align-items-center text-center">
                 <Card.Body>
                   <Card.Title>Total Deaths</Card.Title>
                   <Card.Subtitle className="mb-2 text-muted">
-                    Last recorded on {lastRecordedCases}
+                    Recorded:{lastRecordedCases}
                   </Card.Subtitle>
                   <Card.Subtitle className="mb-2">
                     {totalStats?.TotalDeaths?.toLocaleString("en-US")}
@@ -75,12 +74,12 @@ const CaseCard = ({ type }) => {
             {/* death card-end */}
 
             {/* recovered card-start */}
-            <Col sm={12} lg={4}>
+            <Col sm={12} lg={3}>
               <Card className="bg-dark text-warning border-0 flex-col align-items-center text-center">
                 <Card.Body>
                   <Card.Title>Total Recovered</Card.Title>
                   <Card.Subtitle className="mb-2 text-muted">
-                    Last recorded on {lastRecordedRecovered}
+                    Recorded: {lastRecordedRecovered}
                   </Card.Subtitle>
                   <Card.Subtitle className="mb-2">
                     {totalStats?.TotalRecovered?.toLocaleString("en-US")}

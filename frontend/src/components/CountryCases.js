@@ -40,7 +40,6 @@ const CountryCases = () => {
           )
           .then(async (res) => {
             if (res.data) {
-              console.log("selected country stats:  ", res.data);
               dispatch(
                 setSelectedCountryStats({ selectedCountryStats: res.data })
               );
@@ -50,10 +49,6 @@ const CountryCases = () => {
               if (new Date(endDate) > new Date("2021-08-04")) {
                 await getTotalRecoveredCases();
               } else {
-                console.log(
-                  "country recovered:  ",
-                  res.data[res.data.length - 1].Recovered
-                );
                 dispatch(
                   setSelectedCountryStats({
                     totalRecovered: res.data[res.data.length - 1].Recovered,
@@ -65,8 +60,6 @@ const CountryCases = () => {
             }
           })
           .catch((error) => {
-            console.log(error);
-
             dispatch(
               setModal({
                 isLoading: true,
@@ -104,8 +97,6 @@ const CountryCases = () => {
         }
       })
       .catch((error) => {
-        console.log(error);
-
         dispatch(
           setModal({
             isLoading: true,
@@ -142,20 +133,26 @@ const CountryCases = () => {
     }
   }, []);
   return (
-    <div className="mt-3 d-flex justify-content-center align-items-center">
-      <Container>
+    <div
+      className="mt-3  d-flex justify-content-between align-items-center my-auto mx-5 rounded-2"
+      style={{ backgroundColor: "rgb(255, 193, 7, 0.5)" }}
+    >
+      <Container className="mt-3">
         <Row>
           <Col
             xs={12}
             lg={3}
-            className="d-flex justify-content-center align-items-center "
+            className="d-flex justify-content-center align-items-center"
           >
-            <Form.Group className="mb-3 d-flex align-items-center">
-              <Dropdown>
+            <Form.Group className="mb-3 d-flex align-items-center w-100">
+              <Dropdown className="w-100" key={1}>
                 <Dropdown.Toggle
                   variant="light"
                   id="dropdown-basic"
-                  style={{ width: "16rem" }}
+                  className="w-100"
+                  style={{
+                    backgroundColor: "#fff",
+                  }}
                 >
                   {country ? country : "Select Country"}
                 </Dropdown.Toggle>
@@ -181,35 +178,20 @@ const CountryCases = () => {
             lg={3}
             className="d-flex justify-content-center align-items-center"
           >
-            <Form.Group className="mb-3 d-flex align-items-center">
-              <Form.Label style={{ width: "5rem" }}>From</Form.Label>
+            <Form.Group className="mb-3 d-flex align-items-center w-100">
               <Form.Control
+                key={2}
                 min={"2020-01-22"}
                 max={maxDate}
-                style={{ width: "10rem" }}
-                type="date"
+                type="text"
+                placeholder="Start date..."
+                className="fw-bold text-center"
                 value={startDate}
                 onChange={(e) => {
                   setStartDate(e.target.value);
                 }}
-              />
-            </Form.Group>
-          </Col>
-          <Col
-            xs={12}
-            lg={3}
-            className="d-flex justify-content-center align-items-center"
-          >
-            <Form.Group className="mb-3 d-flex align-items-center">
-              <Form.Label style={{ width: "5rem" }}>to</Form.Label>
-              <Form.Control
-                min={"2020-01-22"}
-                max={maxDate}
-                style={{ width: "10rem" }}
-                type="date"
-                value={endDate}
-                onChange={(e) => {
-                  setEndDate(e.target.value);
+                onFocus={(e) => {
+                  e.target.type = "date";
                 }}
               />
             </Form.Group>
@@ -219,13 +201,33 @@ const CountryCases = () => {
             lg={3}
             className="d-flex justify-content-center align-items-center"
           >
-            <div
-              className="mb-3 d-flex align-items-center"
-              style={{ width: "75%" }}
-            >
+            <Form.Group className="mb-3 d-flex align-items-center w-100">
+              <Form.Control
+                key={3}
+                min={"2020-01-22"}
+                max={maxDate}
+                type="text"
+                placeholder="End date..."
+                className="fw-bold text-center"
+                value={endDate}
+                onChange={(e) => {
+                  setEndDate(e.target.value);
+                }}
+                onFocus={(e) => {
+                  e.target.type = "date";
+                }}
+              />
+            </Form.Group>
+          </Col>
+          <Col
+            xs={12}
+            lg={3}
+            className="d-flex justify-content-center align-items-center"
+          >
+            <div className="mb-3 d-flex align-items-center w-100 ">
               <Button
-                variant="primary"
-                className="w-100"
+                variant="dark"
+                className="w-50 mx-auto"
                 onClick={() => {
                   fetchCountryStats();
                 }}
@@ -241,4 +243,3 @@ const CountryCases = () => {
 };
 
 export default CountryCases;
-//! dates should match that given by the stat

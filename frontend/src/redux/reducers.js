@@ -103,7 +103,6 @@ const statsSlice = createSlice({
     },
     setSelectedCountryStats: (state, action) => {
       // action:{payload:{selectedCountryStats,totalRecovered,lastRecordedRecovered}}
-      console.log("last value sent to redux..", action.payload);
       state.countryAllCases.selectedCountryStats =
         action.payload.selectedCountryStats ||
         state.countryAllCases.selectedCountryStats;

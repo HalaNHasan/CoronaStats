@@ -24,13 +24,13 @@ const LoadingModal = () => {
           </p>
         ) : (
           <p>
-            <b> Please Wait...</b>
+            <b> Please wait...</b>
           </p>
         )}
 
-        {modalMessage ? (
+        {modalMessage && !modalMessage.includes("Please revisit") ? (
           <Button
-            variant="danger"
+            variant="secondary"
             className="w-30"
             onClick={() => {
               dispatch(setModal({ isLoading: false, modalMessage: "" }));
