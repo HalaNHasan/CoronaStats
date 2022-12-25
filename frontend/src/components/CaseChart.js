@@ -1,6 +1,10 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { globalChartSelector, countryChartSelector } from "../redux/selectors";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  globalChartSelectorByDay,
+  globalChartSelectorByMonth,
+  countryChartSelector,
+} from "../redux/selectors";
 import { options } from "./Chart.config.js";
 import Banner from "./Banner";
 
@@ -23,48 +27,55 @@ ChartJS.register(
   Legend
 );
 const CaseChart = ({ type }) => {
+  const dispatch = useDispatch();
+  // const [casesChart, setCaseChart] = useState({});
   let casesChart;
-  const globalStats = useSelector(globalChartSelector);
+  const globalStatsByMonth = useSelector(globalChartSelectorByMonth);
+  const globalStatsByDay = useSelector(globalChartSelectorByDay);
   const countryStats = useSelector(countryChartSelector);
-  if (type == "global") {
-    casesChart = globalStats;
+  const { globalChartType } = useSelector((state) => {
+    return {
+      globalChartType: state.stats.globalChartType,
+    };
+  });
+
+  //
+  if (type == "global" && globalChartType == "daily") {
+    casesChart = globalStatsByDay;
+  } else if (type == "global" && globalChartType == "monthly") {
+    casesChart = globalStatsByMonth;
   } else {
     casesChart = countryStats;
   }
-  // console.log("from case chart", casesChart);
-  //for the first chart
+  // console.log("from case chart", globalChartType, type);
+  // console.log("casesChart", casesChart);
+  //for the first chart-cases
   const totalCasesData = {
-    labels: casesChart.x_ByDay,
+    labels: casesChart.x,
     datasets: [
       {
         label: "Total Cases",
-        data: casesChart.yCasesByDay,
+        data: casesChart.yCases,
         backgroundColor: "rgba(105,105,105, 0.8)",
       },
     ],
   };
 
-  //for the second chart
+  //for the second chart-deaths
   const totalDeathsData = {
-    labels: casesChart.x_ByDay,
+    labels: casesChart.x,
     datasets: [
       {
         label: "Total Deaths",
-        data: casesChart.yCasesByDay,
+        data: casesChart.yDeaths,
         backgroundColor: "rgba(255,69,0, 0.7)",
       },
     ],
   };
-  useEffect(() => {
-    if (type == "global") {
-      casesChart = globalStats;
-    } else {
-      casesChart = countryStats;
-    }
-  }, []);
+
   return (
     <div className="m-5 flex-col">
-      {type == "country" && !casesChart?.yCasesByDay?.length ? (
+      {type == "country" && !casesChart?.yCases?.length ? (
         <Banner message="Please Select Country & Dates!" />
       ) : (
         <>
