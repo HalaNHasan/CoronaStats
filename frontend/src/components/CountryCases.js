@@ -38,14 +38,35 @@ const CountryCases = () => {
           .get(
             `https://api.covid19api.com/country/${country.toLowerCase()}?from=${startDate}T00:00:00Z&to=${endDate}T00:00:00Z`
           )
-          .then((res) => {
-            console.log(res.data);
-            dispatch(setSelectedCountryStats(res.data));
+          .then(async (res) => {
             if (res.data) {
+              console.log("selected country stats:  ", res.data);
+              dispatch(
+                setSelectedCountryStats({ selectedCountryStats: res.data })
+              );
+
               dispatch(setModal({ isLoading: false }));
+              //to set recovered cases by country:
+              if (new Date(endDate) > new Date("2021-08-04")) {
+                await getTotalRecoveredCases();
+              } else {
+                console.log(
+                  "country recovered:  ",
+                  res.data[res.data.length - 1].Recovered
+                );
+                dispatch(
+                  setSelectedCountryStats({
+                    totalRecovered: res.data[res.data.length - 1].Recovered,
+                    lastRecordedRecovered:
+                      res.data[res.data.length - 1]["Date"],
+                  })
+                );
+              }
             }
           })
           .catch((error) => {
+            console.log(error);
+
             dispatch(
               setModal({
                 isLoading: true,
@@ -53,6 +74,8 @@ const CountryCases = () => {
               })
             );
           });
+
+        //since the API doesn't return recovered cases after 5/8/2021; it will be added by fetching
       }
     } else {
       dispatch(
@@ -62,6 +85,34 @@ const CountryCases = () => {
         })
       );
     }
+  };
+  //a function to get total recovered cases by country since it's not correctly returned by the API after 2021-08-04
+  const getTotalRecoveredCases = async () => {
+    await axios
+      .get(
+        `https://api.covid19api.com/country/${country
+          .toLowerCase()
+          .toLowerCase()}?from=2021-08-03T00:00:00Z&to=2021-08-04T00:00:00Z`
+      )
+      .then((res) => {
+        if (res.data) {
+          dispatch(
+            setSelectedCountryStats({
+              totalRecovered: res.data[1].Recovered,
+            })
+          );
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+
+        dispatch(
+          setModal({
+            isLoading: true,
+            modalMessage: error.message,
+          })
+        );
+      });
   };
   //a component that returns a drop-down country item
   const DropDownItem = ({ country, index }) => {
@@ -79,7 +130,13 @@ const CountryCases = () => {
   useEffect(() => {
     //to reset countryStats with each render
     if (!country) {
-      dispatch(setSelectedCountryStats([]));
+      dispatch(
+        setSelectedCountryStats({
+          selectedCountryStats: [],
+          totalRecovered: 0,
+          lastRecordedRecovered: 0,
+        })
+      );
       setStartDate("");
       setEndDate("");
     }
