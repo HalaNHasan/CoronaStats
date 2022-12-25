@@ -25,7 +25,7 @@ const CountryCases = () => {
   const fetchCountryStats = async () => {
     //to fetch stats for a specific country for a specific time-period:
     if (country && startDate && endDate) {
-      if (new Date(startDate) > new Date(endDate)) {
+      if (new Date(startDate) >= new Date(endDate)) {
         dispatch(
           setModal({
             isLoading: true,
