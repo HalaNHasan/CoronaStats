@@ -7,7 +7,7 @@ import ChartSelector from "../components/ChartSelector";
 const WorldPage = () => {
   return (
     <>
-      <CaseCard />
+      <CaseCard type="global" />
       <ChartSelector />
       <CaseChart type="global" />
       <LoadingModal />
