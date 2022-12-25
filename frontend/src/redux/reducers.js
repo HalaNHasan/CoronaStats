@@ -12,6 +12,8 @@ const statsSlice = createSlice({
     selectedCountryStats: [],
     firstIndex: 0,
     lastIndex: 11,
+    //to set global chart type :daily or monthly
+    globalChartType: "daily",
   },
   reducers: {
     setAllStats: (state, action) => {
@@ -86,7 +88,7 @@ const statsSlice = createSlice({
     },
     setSelectedCountryStats: (state, action) => {
       // action:{payload:selectedCountryStats}
-      state.selectedCountryStats = action.payload || state.selectedCountryStats;
+      state.selectedCountryStats = action.payload;
     },
     setNextPage: (state) => {
       state.firstIndex = state.firstIndex + 11 > 0 ? state.firstIndex + 11 : 0;
@@ -114,6 +116,10 @@ const statsSlice = createSlice({
         state.lastIndex
       );
     },
+    setGlobalChartType: (state, action) => {
+      // action:{payload:daily or monthly}
+      state.globalChartType = action.payload || state.globalChartType;
+    },
   },
 });
 
@@ -127,5 +133,6 @@ export const {
   setNextPage,
   setPrevPage,
   resetPagination,
+  setGlobalChartType,
 } = statsSlice.actions;
 export default statsSlice.reducer;
