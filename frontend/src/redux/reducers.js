@@ -108,7 +108,6 @@ const statsSlice = createSlice({
       );
     },
     resetPagination: (state) => {
-      // action:{payload:{firstIndex,lastIndex}}
       state.firstIndex = 0;
       state.lastIndex = 11;
       state.filteredCountries = [...state.allStats].slice(
@@ -119,6 +118,9 @@ const statsSlice = createSlice({
     setGlobalChartType: (state, action) => {
       // action:{payload:daily or monthly}
       state.globalChartType = action.payload || state.globalChartType;
+    },
+    resetFilteredCountries: (state) => {
+      state.filteredCountries = state.allStats;
     },
   },
 });
@@ -134,5 +136,6 @@ export const {
   setPrevPage,
   resetPagination,
   setGlobalChartType,
+  resetFilteredCountries,
 } = statsSlice.actions;
 export default statsSlice.reducer;
